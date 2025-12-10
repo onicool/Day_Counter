@@ -95,14 +95,14 @@ app.get('/', (c) => {
               <div>
                 <p class="text-sm font-semibold text-slate-700 mb-2">数え方を選ぶ</p>
                 <div class="overflow-hidden rounded-lg border border-slate-200">
-                  ${renderPatternRow('both', '期間全体の日数（開始日と終了日を含める）',
+                  ${renderPatternRow('both', '期間全体の日数(開始日と終了日を含める)',
                   '単純な期間の長さ、イベント期間など', pattern)}
-                  ${renderPatternRow('start', '旅行向け（チェックイン日を含める）',
-                  'チェックアウト日は含めない → 泊数を出すときに便利', pattern)}
-                  ${renderPatternRow('end', '締切までの残り日数（締切日を含める）',
+                  ${renderPatternRow('start', '旅行向け(チェックイン日を含める)',
+                  'チェックアウト日は含まない → 泊数を出すときに便利', pattern)}
+                  ${renderPatternRow('end', '締切までの残り日数(締切日を含める)',
                   '今日から締切まで何日か', pattern)}
-                  ${renderPatternRow('none', '純粋な差分（日付のあいだの日数）',
-                  '開始日と終了日を含めない', pattern)}
+                  ${renderPatternRow('none', '純粋な差分(日付のあいだの日数)',
+                  '開始日と終了日を含まない', pattern)}
                 </div>
               </div>
 
@@ -135,7 +135,7 @@ app.get('/', (c) => {
               const year = now.toLocaleString('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric' })
               const month = now.toLocaleString('en-CA', { timeZone: 'Asia/Tokyo', month: '2-digit' })
               const day = now.toLocaleString('en-CA', { timeZone: 'Asia/Tokyo', day: '2-digit' })
-              return `${year}-${month}-${day}`
+              return year + '-' + month + '-' + day
             })()
 
             document.querySelectorAll('[data-fill]').forEach((btn) => {
@@ -179,10 +179,10 @@ app.get('/', (c) => {
               params.set('pattern', selectedPattern)
 
               const query = params.toString()
-              const url = query ? `/api/diff?${query}` : null
+              const url = query ? '/api/diff?' + query : null
 
               if (query) {
-                history.replaceState(null, '', `/?${query}`)
+                history.replaceState(null, '', '/?' + query)
               } else {
                 history.replaceState(null, '', '/')
               }
@@ -207,46 +207,46 @@ app.get('/', (c) => {
             }
 
             function renderPlaceholder() {
-              return `
+              return \`
                 <div>
                   <p class="text-slate-600 text-sm">開始日と終了日を入力すると、ここに結果が表示されます。</p>
                 </div>
-              `
+              \`
             }
 
-            function renderError(message: string) {
-              return `
-                <div class="text-red-600 text-sm">${message}</div>
-              `
+            function renderError(message) {
+              return \`
+                <div class="text-red-600 text-sm">\${message}</div>
+              \`
             }
 
-            function renderResultClient(data: any) {
+            function renderResultClient(data) {
               const swapped = data.swapped
                 ? '<p class="text-xs text-amber-600">※ 開始日と終了日を入れ替えて計算しました。</p>'
                 : ''
               const detail = data.detail
-                ? `<p class="text-xs text-slate-500">カレンダー差分: ${detailCalendar(detail.calendarDiff)} / 平日 ${detail.weekdayDays}日 / 週末 ${detail.weekendDays}日</p>`
+                ? \`<p class="text-xs text-slate-500">カレンダー差分: \${detailCalendar(data.detail.calendarDiff)} / 平日 \${data.detail.weekdayDays}日 / 週末 \${data.detail.weekendDays}日</p>\`
                 : ''
-              return `
+              return \`
                 <div class="space-y-2">
-                  <p class="text-sm text-slate-600">${labelForPattern(data.pattern)}</p>
-                  <p class="text-4xl font-bold">${data.days} 日</p>
-                  ${swapped}
-                  ${detail}
+                  <p class="text-sm text-slate-600">\${labelForPattern(data.pattern)}</p>
+                  <p class="text-4xl font-bold">\${data.days} 日</p>
+                  \${swapped}
+                  \${detail}
                 </div>
-              `
+              \`
             }
 
-            function labelForPattern(pattern: string) {
-              if (pattern === 'start') return '開始日だけ含める（旅行の泊数）'
-              if (pattern === 'end') return '終了日だけ含める（締切を含める）'
-              if (pattern === 'none') return '両端を含めない（純粋な差分）'
+            function labelForPattern(pattern) {
+              if (pattern === 'start') return '開始日だけ含める(旅行の泊数)'
+              if (pattern === 'end') return '終了日だけ含める(締切を含める)'
+              if (pattern === 'none') return '両端を含まない(純粋な差分)'
               return '開始日と終了日を含める'
             }
 
-            function detailCalendar(calendarDiff: number) {
+            function detailCalendar(calendarDiff) {
               if (calendarDiff === 0) return '同じ日'
-              return `${calendarDiff} 日（境界を含まない差）`
+              return calendarDiff + ' 日(境界を含まない差)'
             }
 
             if (!initialState.result && !initialState.error) {
@@ -279,10 +279,10 @@ app.get('/', (c) => {
                 comment: feedbackTextarea.value,
                 email: feedbackEmail.value,
               })
-              feedbackArea.innerHTML = '<p class="text-sm text-green-700">ありがとうございます！フィードバックを受け付けました。</p>'
+              feedbackArea.innerHTML = '<p class="text-sm text-green-700">ありがとうございます!フィードバックを受け付けました。</p>'
             })
 
-            async function sendFeedback(payload: any) {
+            async function sendFeedback(payload) {
               const body = JSON.stringify({
                 ...payload,
                 path: window.location.pathname,
@@ -398,15 +398,15 @@ function renderResult(result: ReturnType<typeof calculateDiff> | null, error: st
 }
 
 function labelForPattern(pattern: CountPattern) {
-  if (pattern === 'start') return '開始日だけ含める（旅行の泊数）'
-  if (pattern === 'end') return '終了日だけ含める（締切を含める）'
-  if (pattern === 'none') return '両端を含めない（純粋な差分）'
+  if (pattern === 'start') return '開始日だけ含める(旅行の泊数)'
+  if (pattern === 'end') return '終了日だけ含める(締切を含める)'
+  if (pattern === 'none') return '両端を含まない(純粋な差分)'
   return '開始日と終了日を含める'
 }
 
 function detailCalendar(calendarDiff: number) {
   if (calendarDiff === 0) return '同じ日'
-  return `${calendarDiff} 日（境界を含まない差）`
+  return `${calendarDiff} 日(境界を含まない差)`
 }
 
 function errorMessage(code: string) {
@@ -427,17 +427,17 @@ function renderFeedbackSection() {
       </div>
 
       <div id="feedback-comment" class="hidden">
-        <p class="mb-1">よければ一言だけご意見をください（任意）：</p>
+        <p class="mb-1">よければ一言だけご意見をください(任意):</p>
         <textarea
           class="w-full border rounded p-2 text-sm"
           rows="3"
-          placeholder="例）ここが分かりにくかった、こういう機能が欲しい など"
+          placeholder="例)ここが分かりにくかった、こういう機能が欲しい など"
         ></textarea>
         <div class="mt-2 flex items-center gap-2">
           <input
             type="email"
             class="border rounded p-1 text-xs"
-            placeholder="返信が必要な方はメールアドレス（任意）"
+            placeholder="返信が必要な方はメールアドレス(任意)"
           />
           <button type="submit" class="px-3 py-1 text-xs rounded bg-slate-900 text-white">送信</button>
         </div>
