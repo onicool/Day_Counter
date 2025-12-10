@@ -42,59 +42,80 @@ app.get('/', (c) => {
             rel="stylesheet"
           />
         </head>
-        <body class="bg-slate-50 text-slate-900">
-          <main class="max-w-3xl mx-auto px-4 py-8">
-            <header class="mb-6">
-              <p class="text-sm text-slate-500">日数カウント</p>
-              <h1 class="text-3xl font-bold mt-1">開始日と終了日を入れるだけで、すぐに日数を計算</h1>
-              <p class="mt-2 text-slate-600 text-sm">
-                4種類の「数え方」から選ぶだけ。旅行の泊数・締切までの日数などを迷わず把握できます。
-              </p>
+        <body class="bg-gradient-to-br from-slate-50 via-white to-indigo-50 text-slate-900">
+          <main class="max-w-5xl mx-auto px-4 py-10">
+            <header class="mb-8 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <div class="space-y-2 max-w-3xl">
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">Day Counter</p>
+                <h1 class="text-3xl md:text-4xl font-bold leading-tight">
+                  日付入力と同時に結果がわかる、モダンな日数カウンター
+                </h1>
+                <p class="text-slate-600 text-sm md:text-base">
+                  4種類の「数え方」から選ぶだけ。旅行の泊数・締切までの日数・シンプルな経過日数などを迷わず把握できます。
+                </p>
+              </div>
+              <div class="rounded-full bg-white/80 backdrop-blur border border-slate-200 px-4 py-2 shadow-sm text-sm text-slate-600">
+                文字入力でもカレンダー操作でもOK。入力に合わせて常時アップデート。
+              </div>
             </header>
 
-            <section class="bg-white rounded-xl shadow-sm border p-5 space-y-4">
-              <div class="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-sm font-semibold text-slate-700">開始日</label>
-                  <div class="mt-1 flex gap-2 items-center">
-                    <input
-                      id="from"
-                      type="date"
-                      name="from"
-                      value="${from}"
-                      class="w-full rounded border px-3 py-2 text-sm"
-                    />
+            <section class="bg-white/80 backdrop-blur rounded-2xl shadow-lg border border-slate-200 p-6 space-y-5">
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between gap-2">
+                    <label class="block text-sm font-semibold text-slate-800">開始日</label>
                     <button
                       data-fill="from"
-                      class="px-2 py-2 text-xs rounded border bg-slate-100 hover:bg-slate-200"
+                      class="px-3 py-1.5 text-xs rounded-full border border-slate-200 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-200 transition"
                     >
-                      今日
+                      今日をセット
                     </button>
                   </div>
+                  <input
+                    id="from"
+                    type="date"
+                    name="from"
+                    value="${from}"
+                    class="w-full rounded-lg border border-slate-200 px-3 py-3 text-sm shadow-inner focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200 transition"
+                  />
+                  <div class="bg-slate-50 border border-slate-200 rounded-xl p-3" data-calendar="from"></div>
                 </div>
-                <div>
-                  <label class="block text-sm font-semibold text-slate-700">終了日</label>
-                  <div class="mt-1 flex gap-2 items-center">
-                    <input
-                      id="to"
-                      type="date"
-                      name="to"
-                      value="${to}"
-                      class="w-full rounded border px-3 py-2 text-sm"
-                    />
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between gap-2">
+                    <label class="block text-sm font-semibold text-slate-800">終了日</label>
                     <button
                       data-fill="to"
-                      class="px-2 py-2 text-xs rounded border bg-slate-100 hover:bg-slate-200"
+                      class="px-3 py-1.5 text-xs rounded-full border border-slate-200 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-200 transition"
                     >
-                      今日
+                      今日をセット
                     </button>
                   </div>
+                  <input
+                    id="to"
+                    type="date"
+                    name="to"
+                    value="${to}"
+                    class="w-full rounded-lg border border-slate-200 px-3 py-3 text-sm shadow-inner focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200 transition"
+                  />
+                  <div class="bg-slate-50 border border-slate-200 rounded-xl p-3" data-calendar="to"></div>
                 </div>
               </div>
 
-              <div>
-                <p class="text-sm font-semibold text-slate-700 mb-2">数え方を選ぶ</p>
-                <div class="overflow-hidden rounded-lg border border-slate-200">
+              <div class="flex flex-wrap gap-2 text-xs text-slate-600 items-center">
+                <button
+                  id="swap"
+                  class="px-3 py-1.5 rounded-full border border-slate-200 bg-white hover:bg-indigo-50 hover:border-indigo-200 transition"
+                >
+                  開始日と終了日を入れ替え
+                </button>
+                <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white border border-slate-200">
+                  <span class="w-2 h-2 rounded-full bg-indigo-400"></span> カレンダーは常に表示され、クリックと入力どちらも使えます
+                </span>
+              </div>
+
+              <div class="bg-gradient-to-br from-indigo-50 via-white to-slate-50 border border-indigo-100 rounded-xl p-4">
+                <p class="text-sm font-semibold text-slate-800 mb-2">数え方を選ぶ</p>
+                <div class="overflow-hidden rounded-xl border border-slate-200 divide-y divide-slate-200">
                   ${renderPatternRow('both', '期間全体の日数(開始日と終了日を含める)',
                   '単純な期間の長さ、イベント期間など', pattern)}
                   ${renderPatternRow('start', '旅行向け(チェックイン日を含める)',
@@ -105,16 +126,9 @@ app.get('/', (c) => {
                   '開始日と終了日を含まない', pattern)}
                 </div>
               </div>
-
-              <div class="flex flex-wrap gap-2 text-xs text-slate-600">
-                <button id="swap" class="px-3 py-1 rounded border bg-slate-100 hover:bg-slate-200">開始日と終了日を入れ替え</button>
-                <span class="inline-flex items-center gap-1">
-                  <span class="w-2 h-2 rounded-full bg-slate-400"></span> クリックで日付を今日にセット
-                </span>
-              </div>
             </section>
 
-            <section class="mt-6 bg-white rounded-xl shadow-sm border p-5" id="result-panel">
+            <section class="mt-6 bg-white/80 backdrop-blur rounded-2xl shadow-lg border border-slate-200 p-5" id="result-panel">
               ${renderResult(result, error)}
             </section>
 
@@ -130,6 +144,11 @@ app.get('/', (c) => {
             const patternRows = Array.from(document.querySelectorAll('[data-pattern-row]'))
             const resultPanel = document.getElementById('result-panel')
 
+            const calendarContainers = {
+              from: document.querySelector('[data-calendar="from"]'),
+              to: document.querySelector('[data-calendar="to"]'),
+            }
+
             const todayTokyo = (() => {
               const now = new Date()
               const year = now.toLocaleString('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric' })
@@ -142,8 +161,14 @@ app.get('/', (c) => {
               btn.addEventListener('click', () => {
                 const target = btn.getAttribute('data-fill')
                 if (!fromInput || !toInput) return
-                if (target === 'from') fromInput.value = todayTokyo
-                if (target === 'to') toInput.value = todayTokyo
+                if (target === 'from') {
+                  fromInput.value = todayTokyo
+                  syncCalendarSelection('from', todayTokyo)
+                }
+                if (target === 'to') {
+                  toInput.value = todayTokyo
+                  syncCalendarSelection('to', todayTokyo)
+                }
                 calculate()
               })
             })
@@ -153,6 +178,8 @@ app.get('/', (c) => {
               const tmp = fromInput.value
               fromInput.value = toInput.value
               toInput.value = tmp
+              syncCalendarSelection('from', fromInput.value)
+              syncCalendarSelection('to', toInput.value)
               calculate()
             })
 
@@ -167,7 +194,46 @@ app.get('/', (c) => {
             })
 
             ;[fromInput, toInput].forEach((input) => {
-              input?.addEventListener('change', () => calculate())
+              input?.addEventListener('change', (event) => {
+                const target = event.target
+                if (!(target instanceof HTMLInputElement)) return
+                syncCalendarSelection(target.id as 'from' | 'to', target.value)
+                calculate()
+              })
+              input?.addEventListener('input', (event) => {
+                const target = event.target
+                if (!(target instanceof HTMLInputElement)) return
+                syncCalendarSelection(target.id as 'from' | 'to', target.value, false)
+              })
+            })
+
+            const calendarState = {
+              from: { currentMonth: deriveMonth(fromInput?.value) },
+              to: { currentMonth: deriveMonth(toInput?.value) },
+            }
+
+            Object.entries(calendarContainers).forEach(([key, container]) => {
+              if (!container) return
+              renderCalendar(key as 'from' | 'to')
+              container.addEventListener('click', (event) => {
+                const target = event.target
+                if (!(target instanceof HTMLElement)) return
+                if (target.dataset.nav) {
+                  shiftMonth(key as 'from' | 'to', Number(target.dataset.nav))
+                  renderCalendar(key as 'from' | 'to')
+                }
+                if (target.dataset.date) {
+                  const dateValue = target.dataset.date
+                  if (key === 'from' && fromInput) {
+                    fromInput.value = dateValue
+                  }
+                  if (key === 'to' && toInput) {
+                    toInput.value = dateValue
+                  }
+                  syncCalendarSelection(key as 'from' | 'to', dateValue, false)
+                  calculate()
+                }
+              })
             })
 
             async function calculate() {
@@ -207,17 +273,19 @@ app.get('/', (c) => {
             }
 
             function renderPlaceholder() {
-              return \`
+              return \
+                `
                 <div>
                   <p class="text-slate-600 text-sm">開始日と終了日を入力すると、ここに結果が表示されます。</p>
                 </div>
-              \`
+              `
             }
 
             function renderError(message) {
-              return \`
-                <div class="text-red-600 text-sm">\${message}</div>
-              \`
+              return \
+                `
+                <div class="text-red-600 text-sm">${message}</div>
+              `
             }
 
             function renderResultClient(data) {
@@ -225,32 +293,111 @@ app.get('/', (c) => {
                 ? '<p class="text-xs text-amber-600">※ 開始日と終了日を入れ替えて計算しました。</p>'
                 : ''
               const detail = data.detail
-                ? \`<p class="text-xs text-slate-500">カレンダー差分: \${detailCalendar(data.detail.calendarDiff)} / 平日 \${data.detail.weekdayDays}日 / 週末 \${data.detail.weekendDays}日</p>\`
+                ? `
+                  <p class="text-xs text-slate-500">
+                    カレンダー差分: ${detailCalendar(data.detail.calendarDiff)} / 平日 ${data.detail.weekdayDays}日 /
+                    週末 ${data.detail.weekendDays}日
+                  </p>
+                `
                 : ''
-              return \`
+              return \
+                `
                 <div class="space-y-2">
-                  <p class="text-sm text-slate-600">\${labelForPattern(data.pattern)}</p>
-                  <p class="text-4xl font-bold">\${data.days} 日</p>
-                  \${swapped}
-                  \${detail}
+                  <p class="text-sm text-slate-600">${labelForPattern(data.pattern)}</p>
+                  <p class="text-4xl font-bold">${data.days} 日</p>
+                  ${swapped}
+                  ${detail}
                 </div>
-              \`
-            }
-
-            function labelForPattern(pattern) {
-              if (pattern === 'start') return '開始日だけ含める(旅行の泊数)'
-              if (pattern === 'end') return '終了日だけ含める(締切を含める)'
-              if (pattern === 'none') return '両端を含まない(純粋な差分)'
-              return '開始日と終了日を含める'
-            }
-
-            function detailCalendar(calendarDiff) {
-              if (calendarDiff === 0) return '同じ日'
-              return calendarDiff + ' 日(境界を含まない差)'
+              `
             }
 
             if (!initialState.result && !initialState.error) {
               resultPanel.innerHTML = renderPlaceholder()
+            }
+
+            function deriveMonth(inputValue) {
+              const parsed = parseDate(inputValue)
+              const base = parsed ?? new Date()
+              return new Date(base.getFullYear(), base.getMonth(), 1)
+            }
+
+            function parseDate(value) {
+              if (!value) return null
+              const [y, m, d] = value.split('-').map((v) => Number(v))
+              if (!y || !m || !d) return null
+              const dt = new Date(Date.UTC(y, m - 1, d))
+              if (dt.getUTCMonth() !== m - 1 || dt.getUTCDate() !== d) return null
+              return dt
+            }
+
+            function formatISO(date) {
+              const y = date.getUTCFullYear()
+              const m = String(date.getUTCMonth() + 1).padStart(2, '0')
+              const d = String(date.getUTCDate()).padStart(2, '0')
+              return `${y}-${m}-${d}`
+            }
+
+            function shiftMonth(key, diff) {
+              const current = calendarState[key].currentMonth
+              const shifted = new Date(Date.UTC(current.getUTCFullYear(), current.getUTCMonth() + diff, 1))
+              calendarState[key].currentMonth = shifted
+            }
+
+            function syncCalendarSelection(key, value, keepMonth = true) {
+              const parsed = parseDate(value)
+              if (!parsed) return renderCalendar(key)
+              if (!keepMonth) {
+                calendarState[key].currentMonth = new Date(Date.UTC(parsed.getUTCFullYear(), parsed.getUTCMonth(), 1))
+              }
+              calendarState[key].selected = parsed
+              renderCalendar(key)
+            }
+
+            function renderCalendar(key) {
+              const container = calendarContainers[key]
+              if (!container) return
+              const state = calendarState[key]
+              const current = state.currentMonth
+              const selected = state.selected
+
+              const year = current.getUTCFullYear()
+              const month = current.getUTCMonth()
+              const startDay = new Date(Date.UTC(year, month, 1))
+              const startWeekday = startDay.getUTCDay()
+              const daysInMonth = new Date(Date.UTC(year, month + 1, 0)).getUTCDate()
+
+              const weekdays = ['日', '月', '火', '水', '木', '金', '土']
+              const cells = []
+              for (let i = 0; i < startWeekday; i++) {
+                cells.push('<div class="h-9"></div>')
+              }
+              for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(Date.UTC(year, month, day))
+                const value = formatISO(date)
+                const isSelected = selected && formatISO(selected) === value
+                const isToday = value === todayTokyo
+                cells.push(
+                  `<button data-date="${value}" class="h-9 text-sm rounded-lg border ${
+                    isSelected
+                      ? 'bg-indigo-600 text-white border-indigo-600'
+                      : isToday
+                        ? 'bg-indigo-50 text-indigo-700 border-indigo-100'
+                        : 'bg-white text-slate-700 border-slate-200 hover:border-indigo-200 hover:bg-indigo-50'
+                  } transition">${day}</button>`
+                )
+              }
+
+              container.innerHTML = `
+                <div class="flex items-center justify-between mb-2 text-sm text-slate-700">
+                  <button data-nav="-1" class="p-1 rounded-lg border border-slate-200 bg-white hover:bg-indigo-50">←</button>
+                  <div class="font-semibold">${year}年 ${month + 1}月</div>
+                  <button data-nav="1" class="p-1 rounded-lg border border-slate-200 bg-white hover:bg-indigo-50">→</button>
+                </div>
+                <div class="grid grid-cols-7 gap-1 text-[11px] text-slate-500 mb-1">
+                  ${weekdays.map((w) => `<div class="text-center">${w}</div>`).join('')}
+                </div>
+                <div class="grid grid-cols-7 gap-1">${cells.join('')}</div>
+              `
             }
 
             // feedback interactions
@@ -361,7 +508,7 @@ function renderPatternRow(
   const checked = current === id ? 'checked' : ''
   return html`
     <label
-      class="flex items-start gap-3 p-3 border-b last:border-b-0 cursor-pointer hover:bg-slate-50"
+      class="flex items-start gap-3 p-3 cursor-pointer hover:bg-indigo-50/70 transition"
       data-pattern-row
     >
       <input type="radio" name="pattern" value="${id}" class="mt-1" ${checked} />
