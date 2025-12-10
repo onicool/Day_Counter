@@ -425,7 +425,7 @@ function renderPatternCard(
   id: CountPattern,
   title: string,
   description: string,
-  iconType: string,
+  iconType: 'calendar' | 'clock' | 'trending' | 'arrow',
   current: CountPattern
 ) {
   const selected = current === id;
